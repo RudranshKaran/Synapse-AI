@@ -4,6 +4,7 @@ import uuid
 
 from fastapi import HTTPException, status
 
+from app.providers.config import get_model_config
 from app.repositories.debate_repository import DebateRepository
 from app.schemas.debate import (
     DebateCreate,
@@ -87,10 +88,16 @@ class DebateService:
 
         participant_infos: list[ParticipantInfo] = []
         for model_name in payload.models:
+            # Derive provider from model config; fall back to request's provider
+            model_cfg = get_model_config(model_name)
+            provider = (
+                model_cfg.provider_key if model_cfg else payload.provider or "mock"
+            )
+
             participant = self._repository.add_participant(
                 debate_id=debate.id,
                 model_name=model_name,
-                provider=payload.provider,
+                provider=provider,
             )
             participant_infos.append(
                 ParticipantInfo(

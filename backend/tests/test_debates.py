@@ -69,15 +69,18 @@ class TestDebateConfiguration:
     """Debate configuration and provider selection tests."""
 
     def test_create_with_default_provider(self, client: TestClient) -> None:
+        """Provider is derived from model config when not overridden."""
         resp = client.post(
             "/api/v1/debates",
             json={"question": "Test?", "models": ["model-a"]},
         )
         assert resp.status_code == 201
         p = resp.json()["participants"][0]
-        assert p["provider"] == "mock"
+        # "model-a" maps to provider_key "model_a" in config
+        assert p["provider"] == "model_a"
 
-    def test_create_with_openai_provider(self, client: TestClient) -> None:
+    def test_create_with_provider_override_falls_back(self, client: TestClient) -> None:
+        """Provider from request is used only for models not in config."""
         resp = client.post(
             "/api/v1/debates",
             json={
@@ -88,7 +91,8 @@ class TestDebateConfiguration:
         )
         assert resp.status_code == 201
         p = resp.json()["participants"][0]
-        assert p["provider"] == "openai"
+        # Config model "model-a" has provider_key "model_a", so config wins
+        assert p["provider"] == "model_a"
 
     def test_create_with_config_dict(self, client: TestClient) -> None:
         resp = client.post(

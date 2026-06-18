@@ -171,9 +171,12 @@ export const STATUS_COLORS: Record<string, string> = {
 };
 
 export const MODEL_NAMES: Record<string, string> = {
-  "model-a": "Model A",
-  "model-b": "Model B",
-  "model-c": "Model C",
+  "agent-a": "Agent A (Gemini 2.5 Flash)",
+  "agent-b": "Agent B (Llama 3.1 Groq)",
+  "agent-c": "Agent C (DeepSeek R1)",
+  "model-a": "Model A (Mock)",
+  "model-b": "Model B (Mock)",
+  "model-c": "Model C (Mock)",
   "gpt-4o-mini": "GPT-4o Mini",
   "gpt-4o": "GPT-4o",
 };

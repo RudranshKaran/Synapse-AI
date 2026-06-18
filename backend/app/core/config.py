@@ -4,7 +4,6 @@ Reads from environment variables and .env file.
 All configuration is centralized here for the entire application.
 """
 
-import os
 from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -27,7 +26,9 @@ class Settings(BaseSettings):
     LOG_LEVEL: str = "INFO"
 
     # Database
-    DATABASE_URL: str = "postgresql://synapse:synapse@localhost:5432/synapse"
+    DATABASE_URL: str = (
+        "postgresql://synapse:synapse@localhost:5432/synapse"
+    )
 
     # CORS
     CORS_ORIGINS: list[str] = ["http://localhost:3000"]
@@ -36,9 +37,25 @@ class Settings(BaseSettings):
     HOST: str = "0.0.0.0"
     PORT: int = 8000
 
-    # LLM Providers
-    DEFAULT_PROVIDER: str = "mock"
+    # Default Provider (used when no specific model override is given)
+    DEFAULT_PROVIDER: str = "gemini"
+
+    # ── Provider API Keys ─────────────────────────────────
     OPENAI_API_KEY: str = ""
+    GEMINI_API_KEY: str = ""
+    GROQ_API_KEY: str = ""
+    OPENROUTER_API_KEY: str = ""
+
+    # ── Provider Model Overrides ──────────────────────────
+    # Each provider has a default model; these env vars let you
+    # switch to a different model without code changes.
+    GEMINI_MODEL: str = "gemini-2.5-flash"
+    GROQ_MODEL: str = "llama-3.1-8b-instant"
+
+    # OpenRouter uses full model paths (e.g. deepseek/deepseek-r1)
+    OPENROUTER_MODEL: str = "deepseek/deepseek-r1"
+
+    # Legacy OpenAI fallback
     OPENAI_MODEL: str = "gpt-4o-mini"
 
 

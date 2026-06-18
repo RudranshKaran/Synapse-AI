@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Sparkles, Loader2 } from "lucide-react";
+import { ArrowLeft, Sparkles, Loader2, Info } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -13,11 +13,15 @@ import { useCreateDebate } from "@/lib/api/hooks";
 import { toast } from "sonner";
 
 const AVAILABLE_MODELS = [
-  { value: "model-a", label: "Model A", provider: "mock" },
-  { value: "model-b", label: "Model B", provider: "mock" },
-  { value: "model-c", label: "Model C", provider: "mock" },
-  { value: "gpt-4o-mini", label: "GPT-4o Mini", provider: "openai" },
-  { value: "gpt-4o", label: "GPT-4o", provider: "openai" },
+  { value: "agent-a", label: "Agent A — Balanced Analyst", subtitle: "Gemini 2.5 Flash" },
+  { value: "agent-b", label: "Agent B — Critical Reviewer", subtitle: "Llama 3.1 via Groq" },
+  { value: "agent-c", label: "Agent C — Devil's Advocate", subtitle: "DeepSeek R1 via OpenRouter" },
+];
+
+const TEST_MODELS = [
+  { value: "model-a", label: "Model A (Mock)" },
+  { value: "model-b", label: "Model B (Mock)" },
+  { value: "model-c", label: "Model C (Mock)" },
 ];
 
 export default function NewDebatePage() {
@@ -25,9 +29,9 @@ export default function NewDebatePage() {
   const createDebate = useCreateDebate();
 
   const [question, setQuestion] = useState("");
-  const [selectedModels, setSelectedModels] = useState<string[]>(["model-a", "model-b", "model-c"]);
-  const [provider, setProvider] = useState<"mock" | "openai">("mock");
+  const [selectedModels, setSelectedModels] = useState<string[]>(["agent-a", "agent-b", "agent-c"]);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showTesting, setShowTesting] = useState(false);
 
   function toggleModel(model: string) {
     setSelectedModels((prev) =>
@@ -55,7 +59,6 @@ export default function NewDebatePage() {
       const result = await createDebate.mutateAsync({
         question: question.trim(),
         models: selectedModels,
-        provider,
       });
       toast.success("Debate created successfully");
       router.push(`/debates/${result.debate_id}`);
@@ -67,10 +70,9 @@ export default function NewDebatePage() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
-      {/* Back link */}
       <Link
         href="/debates"
-        className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 transition-colors"
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
         Back to debates
@@ -78,14 +80,14 @@ export default function NewDebatePage() {
 
       <div>
         <h1 className="text-2xl font-bold">Create a Debate</h1>
-        <p className="text-sm text-gray-500 mt-1">
-          Submit a question for AI models to discuss and analyze.
+        <p className="text-sm text-muted-foreground mt-1">
+          Submit a question for AI agents to discuss, critique, and reach consensus.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Question */}
-        <Card className="p-5 border-gray-200 space-y-3">
+        <Card className="p-5 border-border space-y-3">
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-violet-500" />
             <Label htmlFor="question" className="font-semibold">Question</Label>
@@ -96,21 +98,23 @@ export default function NewDebatePage() {
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             rows={4}
-            className={errors.question ? "border-red-400" : ""}
+            className={errors.question ? "border-destructive" : ""}
           />
           <div className="flex items-center justify-between text-xs">
-            <span className={errors.question ? "text-red-500" : "text-gray-400"}>
-              {errors.question || ""}
+            <span className={errors.question ? "text-destructive" : "text-muted-foreground"}>
+              {errors.question || "Enter a debate question for the AI agents."}
             </span>
-            <span className="text-gray-400">{question.length} / 5000</span>
+            <span className="text-muted-foreground">{question.length} / 5000</span>
           </div>
         </Card>
 
-        {/* Models */}
-        <Card className="p-5 border-gray-200 space-y-3">
-          <Label className="font-semibold">Models</Label>
-          <p className="text-xs text-gray-500">Select which AI models will participate.</p>
-          <div className="flex flex-wrap gap-2">
+        {/* Agent Models */}
+        <Card className="p-5 border-border space-y-3">
+          <Label className="font-semibold">Synapse AI Agents</Label>
+          <p className="text-xs text-muted-foreground">
+            Select which AI agents will participate. Each uses a different model with a distinct reasoning style.
+          </p>
+          <div className="space-y-2">
             {AVAILABLE_MODELS.map((model) => {
               const isSelected = selectedModels.includes(model.value);
               return (
@@ -118,55 +122,67 @@ export default function NewDebatePage() {
                   key={model.value}
                   type="button"
                   onClick={() => toggleModel(model.value)}
-                  className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${
+                  className={`w-full flex items-center justify-between px-4 py-3 rounded-lg border text-sm text-left transition-colors ${
                     isSelected
-                      ? "bg-violet-100 text-violet-700 border-violet-300"
-                      : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"
+                      ? "bg-violet-50 dark:bg-violet-950/50 text-violet-700 dark:text-violet-300 border-violet-300 dark:border-violet-700"
+                      : "bg-background text-foreground border-border hover:border-violet-300 dark:hover:border-violet-700"
                   }`}
                 >
-                  {model.label}
-                  {model.provider !== "mock" && (
-                    <span className="ml-1 text-[10px] opacity-60">({model.provider})</span>
-                  )}
+                  <div>
+                    <div className="font-medium">{model.label}</div>
+                    <div className="text-xs opacity-70">{model.subtitle}</div>
+                  </div>
+                  <div
+                    className={`shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+                      isSelected
+                        ? "bg-violet-600 border-violet-600"
+                        : "border-muted-foreground"
+                    }`}
+                  >
+                    {isSelected && (
+                      <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
+                  </div>
                 </button>
               );
             })}
           </div>
-          {errors.models && <p className="text-xs text-red-500">{errors.models}</p>}
-        </Card>
 
-        {/* Provider */}
-        <Card className="p-5 border-gray-200 space-y-3">
-          <Label className="font-semibold">Provider</Label>
-          <p className="text-xs text-gray-500">
-            Mock providers respond instantly for testing. OpenAI uses real LLM calls (requires API key).
-          </p>
-          <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={() => setProvider("mock")}
-              className={`flex-1 px-4 py-3 rounded-lg border text-sm font-medium text-left transition-colors ${
-                provider === "mock"
-                  ? "bg-violet-100 text-violet-700 border-violet-300"
-                  : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"
-              }`}
-            >
-              <div className="font-semibold">Mock</div>
-              <div className="text-xs opacity-70 mt-0.5">Fast, for testing</div>
-            </button>
-            <button
-              type="button"
-              onClick={() => setProvider("openai")}
-              className={`flex-1 px-4 py-3 rounded-lg border text-sm font-medium text-left transition-colors ${
-                provider === "openai"
-                  ? "bg-violet-100 text-violet-700 border-violet-300"
-                  : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"
-              }`}
-            >
-              <div className="font-semibold">OpenAI</div>
-              <div className="text-xs opacity-70 mt-0.5">Real LLM responses</div>
-            </button>
-          </div>
+          {/* Toggle test models */}
+          <button
+            type="button"
+            onClick={() => setShowTesting(!showTesting)}
+            className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors pt-1"
+          >
+            <Info className="h-3 w-3" />
+            {showTesting ? "Hide" : "Show"} testing models
+          </button>
+
+          {showTesting && (
+            <div className="flex flex-wrap gap-2 pt-1">
+              {TEST_MODELS.map((model) => {
+                const isSelected = selectedModels.includes(model.value);
+                return (
+                  <button
+                    key={model.value}
+                    type="button"
+                    onClick={() => toggleModel(model.value)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+                      isSelected
+                        ? "bg-amber-100 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-700"
+                        : "bg-muted text-muted-foreground border-border hover:border-amber-300"
+                    }`}
+                  >
+                    {model.label}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          {errors.models && <p className="text-xs text-destructive">{errors.models}</p>}
         </Card>
 
         {/* Submit */}

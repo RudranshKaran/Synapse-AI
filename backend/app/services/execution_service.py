@@ -2,6 +2,10 @@
 
 Implements the full pipeline: opinion generation, critique, revision,
 consensus, and evaluation. Each phase is a separate logical step.
+
+The consensus phase uses the LLM-based ConsensusEngine with the
+Gemini provider when available (production), falling back to
+deterministic analysis (testing/mock).
 """
 
 import uuid
@@ -23,14 +27,6 @@ from app.schemas.execution import (
     OpinionResult,
     RevisionResult,
 )
-from app.services.debate_state import (
-    ConsensusRecord,
-    CritiqueRecord,
-    DebateState,
-    EvaluationRecord,
-    OpinionRecord,
-    RevisionRecord,
-)
 
 logger = get_logger(__name__)
 
@@ -39,8 +35,8 @@ class ExecutionService:
     """Service for debate execution and orchestration.
 
     Each phase of the debate lifecycle maps to a method on this service.
-    Currently implements: opinion_generation, critique_phase.
-    Future: revision, consensus, evaluation.
+    The consensus engine is initialized with the Gemini provider for
+    production LLM-based consensus.
     """
 
     def __init__(
@@ -50,8 +46,31 @@ class ExecutionService:
         evaluation_engine: EvaluationEngine | None = None,
     ) -> None:
         self._repository = repository
-        self._consensus_engine = consensus_engine or ConsensusEngine()
+        # Consensus engine gets the Gemini provider if available
+        self._consensus_engine = consensus_engine or self._build_consensus_engine()
         self._evaluation_engine = evaluation_engine or EvaluationEngine()
+
+    @staticmethod
+    def _build_consensus_engine() -> ConsensusEngine:
+        """Build a ConsensusEngine with the Gemini provider for LLM consensus.
+
+        Falls back to deterministic if Gemini is not configured.
+        """
+        try:
+            from app.core.config import settings
+            from app.providers.gemini_provider import GeminiProvider
+
+            if settings.GEMINI_API_KEY:
+                provider = GeminiProvider()
+                logger.info("Initialized LLM-based ConsensusEngine with Gemini")
+                return ConsensusEngine(consensus_provider=provider)
+        except Exception as exc:
+            logger.warning(
+                "Failed to initialize LLM consensus provider: %s. "
+                "Falling back to deterministic consensus.",
+                exc,
+            )
+        return ConsensusEngine()
 
     def run_opinion_generation(
         self, debate_id: str, payload: DebateRunRequest
@@ -60,15 +79,8 @@ class ExecutionService:
 
         This is kept as a public method for backward compatibility
         and independent phase execution. For the full pipeline
-        (opinions + critiques), use run_debate().
-
-        Workflow:
-        1. Load debate and participants from database.
-        2. Resolve providers via the factory.
-        3. Generate opinions from each participant.
-        4. Create debate_round record and persist responses.
-        5. Update debate status.
-        6. Return generated opinions.
+        (opinions + critiques + revisions + consensus + evaluation),
+        use run_debate().
 
         Args:
             debate_id: The debate UUID as a string.
@@ -82,7 +94,6 @@ class ExecutionService:
         """
         debate_uuid, debate, participants = self._load_debate(debate_id)
 
-        # Create round for opinion generation
         debate_round = self._repository.create_round(
             debate_id=debate_uuid,
             round_number=1,
@@ -91,13 +102,12 @@ class ExecutionService:
 
         self._repository.update_debate_status(debate_uuid, "running")
 
-        # Generate opinions from each participant
         opinion_results: list[OpinionResult] = []
         for participant in participants:
             provider = self._resolve_provider(participant)
             model_response = provider.generate_response(question=debate.question)
 
-            stored = self._repository.create_response(
+            self._repository.create_response(
                 debate_id=debate_uuid,
                 round_id=debate_round.id,
                 participant_id=participant.id,
@@ -124,18 +134,15 @@ class ExecutionService:
         )
 
     def run_debate(self, debate_id: str, payload: DebateRunRequest) -> DebateRunResponse:
-        """Execute the full debate pipeline: opinions → critiques → revisions.
-
-        Runs all phases sequentially and returns a combined response
-        with opinions, critiques, and revisions. Future phases
-        (consensus, evaluation) will be added here.
+        """Execute the full debate pipeline: opinions → critiques → revisions
+        → consensus → evaluation.
 
         Args:
             debate_id: The debate UUID as a string.
             payload: Validated run request.
 
         Returns:
-            DebateRunResponse with status, opinions, critiques, and revisions.
+            DebateRunResponse with status and all phase results.
         """
         debate_uuid, debate, participants = self._load_debate(debate_id)
 
@@ -147,7 +154,7 @@ class ExecutionService:
         self._repository.update_debate_status(debate_uuid, "running")
 
         opinion_results: list[OpinionResult] = []
-        stored_opinions: list[tuple] = []  # (participant, response_id, opinion_result)
+        stored_opinions: list[tuple] = []
 
         for participant in participants:
             provider = self._resolve_provider(participant)
@@ -171,13 +178,14 @@ class ExecutionService:
             opinion_results.append(result)
             stored_opinions.append((participant, stored.id, result))
 
+        self._repository.update_debate_status(debate_uuid, "opinions_generated")
+
         # === Phase 2: Critique Generation ===
         critique_round = self._repository.create_round(
             debate_id=debate_uuid, round_number=2, phase="critique",
         )
 
         critique_results: list[CritiqueResult] = []
-        # Track which critiques target each opinion: opinion_response_id → list of (critic_participant, critique_content)
         critiques_by_target: dict[uuid.UUID, list[tuple]] = {}
         participant_count = len(participants)
 
@@ -200,7 +208,6 @@ class ExecutionService:
                 confidence_score=model_response.confidence,
             )
 
-            # Create the relationship linking critique → target opinion
             self._repository.create_response_relationship(
                 source_response_id=stored_critique.id,
                 target_response_id=target_response_id,
@@ -218,10 +225,11 @@ class ExecutionService:
                 )
             )
 
-            # Track for revision phase
             critiques_by_target.setdefault(target_response_id, []).append(
                 (participant, model_response.content)
             )
+
+        self._repository.update_debate_status(debate_uuid, "critiques_generated")
 
         # === Phase 3: Revision Generation ===
         revision_round = self._repository.create_round(
@@ -231,10 +239,7 @@ class ExecutionService:
         revision_results: list[RevisionResult] = []
 
         for participant, opinion_response_id, opinion_result in stored_opinions:
-            # Find all critiques targeting this participant's opinion
             target_critiques = critiques_by_target.get(opinion_response_id, [])
-
-            # Combine all critiques into a single string for the provider
             critique_texts = [c[1] for c in target_critiques]
             combined_critiques = "\n\n".join(critique_texts)
 
@@ -254,7 +259,6 @@ class ExecutionService:
                 confidence_score=model_response.confidence,
             )
 
-            # Create the relationship linking revision → original opinion
             self._repository.create_response_relationship(
                 source_response_id=stored_revision.id,
                 target_response_id=opinion_response_id,
@@ -272,12 +276,13 @@ class ExecutionService:
                 )
             )
 
+        self._repository.update_debate_status(debate_uuid, "revisions_generated")
+
         # === Phase 4: Consensus Generation ===
         consensus_round = self._repository.create_round(
             debate_id=debate_uuid, round_number=4, phase="consensus",
         )
 
-        # Build revised positions for the consensus engine
         revised_positions = [
             {
                 "participant_id": str(p.id),
@@ -292,14 +297,12 @@ class ExecutionService:
             revised_positions=revised_positions,
         )
 
-        # Persist consensus report
         report = self._repository.create_consensus_report(
             debate_id=debate_uuid,
             consensus_score=engine_result.consensus_score,
             summary=engine_result.summary,
         )
 
-        # Persist individual agreements and disagreements
         for agreement_text in engine_result.agreements:
             self._repository.create_consensus_item(
                 consensus_report_id=report.id,
@@ -326,7 +329,6 @@ class ExecutionService:
             debate_id=debate_uuid, round_number=5, phase="evaluation",
         )
 
-        # Build data structures for evaluation engine
         opinion_data = [
             {
                 "participant_id": str(p.id),
@@ -353,14 +355,12 @@ class ExecutionService:
             participants=participant_data,
         )
 
-        # Persist debate-level metric
         self._repository.create_evaluation_metric(
             debate_id=debate_uuid,
             metric_name="agreement_score",
             metric_value=eval_engine_result.agreement_score,
         )
 
-        # Persist participant-level metrics
         for pid, drift in eval_engine_result.opinion_drifts.items():
             self._repository.create_participant_metric(
                 debate_id=debate_uuid,

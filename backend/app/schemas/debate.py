@@ -23,8 +23,9 @@ class DebateCreate(BaseModel):
         ..., min_length=1, max_length=10, description="List of model identifiers"
     )
     provider: str = Field(
-        default="mock",
-        description="Provider type for all models ('mock' or 'openai')",
+        default="",
+        description="DEPRECATED: Provider is derived from model config. "
+        "Use model identifiers from AVAILABLE_MODELS instead.",
     )
     config: dict = Field(
         default_factory=dict,
