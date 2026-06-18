@@ -1,10 +1,10 @@
-# Synapse Agent Design Document
+# Synapse AI Agent Design Document
 
 ## Overview
 
-Synapse uses a role-based agent architecture to orchestrate structured debates between Large Language Models.
+Synapse AI uses a role-based agent architecture to orchestrate structured debates between Large Language Models.
 
-Rather than treating each LLM as an independent agent, Synapse separates:
+Rather than treating each LLM as an independent agent, Synapse AI separates:
 
 * Agent Responsibilities
 * Agent Behaviors
@@ -24,11 +24,11 @@ Models execute those responsibilities.
 
 Example:
 
-Opinion Agent → GPT-4
+Opinion Agent → Model-A
 
-Critique Agent → Claude
+Critique Agent → Model-B
 
-Consensus Agent → Gemini
+Consensus Agent → Model-C
 
 The same agent can later be assigned to a different model.
 
@@ -354,19 +354,19 @@ Example configuration:
 
 ```yaml
 Opinion Agent:
-  model: GPT-4
+  model: Model-A
 
 Critique Agent:
-  model: Claude
+  model: Model-B
 
 Defense Agent:
-  model: Gemini
+  model: Model-C
 
 Consensus Agent:
-  model: GPT-4
+  model: Model-A
 
 Evaluation Agent:
-  model: Claude
+  model: Model-B
 ```
 
 Future versions may dynamically assign models based on:
@@ -384,17 +384,17 @@ Version 1 will include:
 
 ## Opinion Agents
 
-GPT-4
+Model-A
 
-Claude
+Model-B
 
-Gemini
+Model-C
 
 ---
 
 ## Consensus Agent
 
-GPT-4
+Model-A
 
 ---
 
@@ -453,4 +453,4 @@ Specialized agents for:
 
 # Agent Design Summary
 
-Synapse uses a role-based multi-agent architecture where specialized agents perform distinct reasoning tasks throughout the debate lifecycle. This separation of concerns improves explainability, extensibility, and research value while enabling systematic analysis of consensus formation and influence dynamics across AI systems.
+Synapse AI uses a role-based multi-agent architecture where specialized agents perform distinct reasoning tasks throughout the debate lifecycle. This separation of concerns improves explainability, extensibility, and research value while enabling systematic analysis of consensus formation and influence dynamics across AI systems.

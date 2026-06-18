@@ -1,8 +1,8 @@
-# Synapse Database Schema
+# Synapse AI Database Schema
 
 ## Overview
 
-This document describes the database design for Synapse.
+This document describes the database design for Synapse AI.
 
 The schema is designed to support:
 
@@ -122,8 +122,8 @@ A debate may contain multiple models.
 
 ```json
 {
-  "model_name": "gpt-4",
-  "provider": "openai"
+  "model_name": "Model-A",
+  "provider": "Generic LLM Provider"
 }
 ```
 
@@ -463,4 +463,4 @@ Potential additions:
 
 # Schema Summary
 
-The Synapse schema is designed around debates as the primary entity. Every interaction, response, metric, and consensus artifact is linked back to a debate, enabling reproducible experiments and long-term analysis of multi-model reasoning behavior.
+The Synapse AI schema is designed around debates as the primary entity. Every interaction, response, metric, and consensus artifact is linked back to a debate, enabling reproducible experiments and long-term analysis of multi-model reasoning behavior.

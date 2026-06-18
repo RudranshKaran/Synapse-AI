@@ -1,10 +1,10 @@
-# Synapse Roadmap
+# Synapse AI Roadmap
 
 ## Overview
 
-This roadmap outlines the development plan for Synapse, a Multi-LLM Consensus and Evaluation Platform.
+This roadmap outlines the development plan for Synapse AI, a Multi-LLM Consensus and Evaluation Platform.
 
-The objective is to incrementally evolve Synapse from a basic debate engine into a research platform capable of analyzing consensus formation, persuasion dynamics, and emergent behaviors across AI systems.
+The objective is to incrementally evolve Synapse AI from a basic debate engine into a research platform capable of analyzing consensus formation, persuasion dynamics, and emergent behaviors across AI systems.
 
 Each phase is designed to produce a usable and demonstrable milestone.
 
@@ -99,9 +99,9 @@ Should AI-generated code be deployed to production?
 
 Supported Models:
 
-* GPT
-* Claude
-* Gemini
+* Model-A
+* Model-B
+* Model-C
 
 ---
 
@@ -160,11 +160,11 @@ Models review peer responses.
 Example:
 
 ```text id="0ul3gc"
-GPT critiques Claude
+Model-A critiques Model-B
 
-Claude critiques Gemini
+Model-B critiques Model-C
 
-Gemini critiques GPT
+Model-C critiques Model-A
 ```
 
 ---
@@ -510,11 +510,11 @@ Specialized expertise for:
 
 # Phase 9
 
-# Synapse Research Platform
+# Synapse AI Research Platform
 
 ## Goal
 
-Transform Synapse into a full research environment.
+Transform Synapse AI into a full research environment.
 
 ---
 
@@ -594,7 +594,7 @@ The MVP excludes:
 * Repository setup
 * FastAPI backend
 * Next.js frontend
-* Gemini integration
+* Model-C integration
 
 ---
 
@@ -623,4 +623,4 @@ The MVP excludes:
 
 # Long-Term Vision
 
-Synapse aims to become a platform for studying collective intelligence, reasoning convergence, persuasion dynamics, and emergent behavior in multi-agent AI systems. By combining debate orchestration, evaluation frameworks, and behavioral analytics, Synapse seeks to provide a structured environment for understanding how intelligent systems interact and make decisions.
+Synapse AI aims to become a platform for studying collective intelligence, reasoning convergence, persuasion dynamics, and emergent behavior in multi-agent AI systems. By combining debate orchestration, evaluation frameworks, and behavioral analytics, Synapse AI seeks to provide a structured environment for understanding how intelligent systems interact and make decisions.

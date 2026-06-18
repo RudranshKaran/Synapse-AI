@@ -1,10 +1,10 @@
-# Synapse Evaluation Framework
+# Synapse AI Evaluation Framework
 
 ## Overview
 
 The Evaluation Framework is responsible for measuring and analyzing behavioral dynamics that emerge during multi-model debates.
 
-Rather than focusing solely on the final answer, Synapse evaluates the entire reasoning process, including:
+Rather than focusing solely on the final answer, Synapse AI evaluates the entire reasoning process, including:
 
 * Agreement
 * Disagreement
@@ -25,7 +25,7 @@ Traditional LLM benchmarks focus on:
 * Benchmark Scores
 * Task Completion
 
-Synapse evaluates:
+Synapse AI evaluates:
 
 * Interaction Quality
 * Reasoning Evolution
@@ -91,11 +91,11 @@ Compute pairwise cosine similarity.
 Example:
 
 ```text
-GPT ↔ Claude = 0.87
+Model-A ↔ Model-B = 0.87
 
-GPT ↔ Gemini = 0.81
+Model-A ↔ Model-C = 0.81
 
-Claude ↔ Gemini = 0.84
+Model-B ↔ Model-C = 0.84
 ```
 
 Average similarity:
@@ -126,7 +126,7 @@ Measure how much a model changes its position during debate.
 
 ### Motivation
 
-One goal of Synapse is understanding whether models are willing to update beliefs when exposed to criticism.
+One goal of Synapse AI is understanding whether models are willing to update beliefs when exposed to criticism.
 
 ---
 
@@ -195,11 +195,11 @@ For every revision:
 Example:
 
 ```text
-Claude critiques GPT
+Model-B critiques Model-A
 
-GPT significantly changes position
+Model-A significantly changes position
 
-Claude receives persuasion credit
+Model-B receives persuasion credit
 ```
 
 ---
@@ -207,11 +207,11 @@ Claude receives persuasion credit
 ### Output
 
 ```text
-Claude → 42
+Model-B → 42
 
-GPT → 31
+Model-A → 31
 
-Gemini → 18
+Model-C → 18
 ```
 
 Higher values indicate stronger influence.
@@ -469,4 +469,4 @@ Version 1 excludes:
 
 # Evaluation Summary
 
-The Synapse Evaluation Framework transforms debates from simple conversations into measurable experiments. By tracking agreement, persuasion, confidence, and opinion change, Synapse enables systematic analysis of how AI systems interact, influence one another, and converge toward shared conclusions.
+The Synapse AI Evaluation Framework transforms debates from simple conversations into measurable experiments. By tracking agreement, persuasion, confidence, and opinion change, Synapse AI enables systematic analysis of how AI systems interact, influence one another, and converge toward shared conclusions.

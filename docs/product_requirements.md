@@ -1,10 +1,10 @@
-# Synapse Product Requirements Document (PRD)
+# Synapse AI Product Requirements Document (PRD)
 
 ## Overview
 
-Synapse is a Multi-LLM Consensus and Evaluation Platform designed to study how different Large Language Models (LLMs) reason, disagree, influence one another, and converge toward shared conclusions through structured debate.
+Synapse AI is a Multi-LLM Consensus and Evaluation Platform designed to study how different Large Language Models (LLMs) reason, disagree, influence one another, and converge toward shared conclusions through structured debate.
 
-Unlike traditional LLM evaluation systems that assess models in isolation, Synapse orchestrates interactions between multiple AI systems and measures behavioral dynamics such as agreement, persuasion, confidence shifts, and consensus formation.
+Unlike traditional LLM evaluation systems that assess models in isolation, Synapse AI orchestrates interactions between multiple AI systems and measures behavioral dynamics such as agreement, persuasion, confidence shifts, and consensus formation.
 
 The platform serves both as a research environment for analyzing emergent behaviors in AI systems and as an evaluation framework for comparing reasoning patterns across models.
 
@@ -31,7 +31,7 @@ As multi-agent systems become increasingly common, understanding these dynamics 
 
 To create a research platform that enables the systematic study of reasoning convergence, persuasion dynamics, and consensus formation across multiple AI systems.
 
-Synapse aims to provide insights into how intelligent systems interact, challenge assumptions, exchange information, and collectively arrive at decisions.
+Synapse AI aims to provide insights into how intelligent systems interact, challenge assumptions, exchange information, and collectively arrive at decisions.
 
 ---
 
@@ -57,7 +57,7 @@ Synapse aims to provide insights into how intelligent systems interact, challeng
 
 # Non-Goals
 
-Synapse is not intended to be:
+Synapse AI is not intended to be:
 
 * A chatbot replacement.
 * A search engine.
@@ -147,16 +147,16 @@ The system must generate independent responses from each participating model.
 
 Supported Models (MVP):
 
-* Gemini
-* GPT-4
-* Claude
+* Model-C
+* Model-A
+* Model-B
 
 Future:
 
-* Llama
-* DeepSeek
-* Mistral
-* Qwen
+* Generic LLM Provider
+* Generic LLM Provider
+* Generic LLM Provider
+* Generic LLM Provider
 
 ---
 
@@ -310,4 +310,4 @@ The MVP will be considered successful if it can:
 
 # Project Statement
 
-Synapse is an attempt to move beyond evaluating AI systems as isolated entities and toward understanding how intelligent systems interact, influence one another, and collectively reason in multi-agent environments.
+Synapse AI is an attempt to move beyond evaluating AI systems as isolated entities and toward understanding how intelligent systems interact, influence one another, and collectively reason in multi-agent environments.

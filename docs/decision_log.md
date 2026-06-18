@@ -1,8 +1,8 @@
-# Synapse Decision Log
+# Synapse AI Decision Log
 
 ## Overview
 
-This document records important engineering, product, and research decisions made during the development of Synapse.
+This document records important engineering, product, and research decisions made during the development of Synapse AI.
 
 Unlike `system_design_decisions.md`, which documents long-term architectural choices, this log captures the evolution of the project over time.
 
@@ -31,7 +31,7 @@ Each entry contains:
 
 ## Decision
 
-Project name finalized as **Synapse**.
+Project name finalized as **Synapse AI**.
 
 ---
 
@@ -43,7 +43,7 @@ Several names were considered:
 * ConsensusAI
 * DebateNet
 * Agora
-* Synapse
+* Synapse AI
 
 ---
 
@@ -65,7 +65,7 @@ Established project identity and repository naming.
 
 ## Decision
 
-Position Synapse as a research and evaluation platform rather than a debate chatbot.
+Position Synapse AI as a research and evaluation platform rather than a debate chatbot.
 
 ---
 
@@ -86,7 +86,7 @@ The evaluation layer introduces:
 * Persuasion measurement
 * Consensus analysis
 
-These capabilities differentiate Synapse from typical multi-agent projects.
+These capabilities differentiate Synapse AI from typical multi-agent projects.
 
 ---
 
@@ -110,9 +110,9 @@ Adopt role-based agents instead of model-based agents.
 
 Initial architecture treated:
 
-* GPT
-* Claude
-* Gemini
+* Model-A
+* Model-B
+* Model-C
 
 as independent agents.
 
@@ -422,4 +422,4 @@ Minor implementation details should not be recorded.
 
 # Summary
 
-The Decision Log serves as the historical record of Synapse's evolution. It captures the reasoning behind important choices and ensures that future development remains understandable, reproducible, and maintainable.
+The Decision Log serves as the historical record of Synapse AI's evolution. It captures the reasoning behind important choices and ensures that future development remains understandable, reproducible, and maintainable.

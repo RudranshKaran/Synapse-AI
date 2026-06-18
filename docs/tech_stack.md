@@ -1,8 +1,8 @@
-# Synapse Technology Stack
+# Synapse AI Technology Stack
 
 ## Overview
 
-This document defines the technology stack for Synapse and explains the rationale behind each technology choice.
+This document defines the technology stack for Synapse AI and explains the rationale behind each technology choice.
 
 The stack prioritizes:
 
@@ -28,7 +28,7 @@ The goal is to build a research-oriented multi-agent AI platform without introdu
 | ORM                 | SQLAlchemy                |
 | Database            | PostgreSQL                |
 | Agent Orchestration | LangGraph                 |
-| LLM Providers       | OpenAI, Anthropic, Google |
+| LLM Providers       | Generic LLM Provider, Generic LLM Provider, Generic LLM Provider |
 | Evaluation Engine   | Sentence Transformers     |
 | Data Analysis       | Pandas                    |
 | Numerical Computing | NumPy                     |
@@ -182,7 +182,7 @@ Multi-agent workflow orchestration.
 
 Traditional agent frameworks focus on simple agent communication.
 
-Synapse requires:
+Synapse AI requires:
 
 * Stateful workflows
 * Multi-step reasoning
@@ -202,11 +202,11 @@ LangGraph provides explicit control over agent interactions and workflow executi
 
 # AI Layer
 
-## OpenAI Models
+## Generic LLM Provider Models
 
 ### Initial Usage
 
-GPT-4
+Model-A
 
 ### Role
 
@@ -214,11 +214,11 @@ Opinion generation and debate participation.
 
 ---
 
-## Anthropic Models
+## Generic LLM Provider Models
 
 ### Initial Usage
 
-Claude
+Model-B
 
 ### Role
 
@@ -226,11 +226,11 @@ Opinion generation and debate participation.
 
 ---
 
-## Google Models
+## Generic LLM Provider Models
 
 ### Initial Usage
 
-Gemini
+Model-C
 
 ### Role
 
@@ -412,7 +412,7 @@ Potential Future Usage:
 
 Reason:
 
-Synapse consumes foundation models rather than training them.
+Synapse AI consumes foundation models rather than training them.
 
 Potential Future Usage:
 
@@ -459,4 +459,4 @@ Observability and monitoring.
 
 # Architecture Summary
 
-The Synapse technology stack is intentionally designed to balance engineering simplicity with research flexibility. The chosen technologies provide a strong foundation for multi-agent orchestration, debate evaluation, and behavioral analysis while keeping the MVP focused and achievable.
+The Synapse AI technology stack is intentionally designed to balance engineering simplicity with research flexibility. The chosen technologies provide a strong foundation for multi-agent orchestration, debate evaluation, and behavioral analysis while keeping the MVP focused and achievable.

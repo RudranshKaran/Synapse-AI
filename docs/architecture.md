@@ -1,8 +1,8 @@
-# Synapse Architecture Document
+# Synapse AI Architecture Document
 
 ## Overview
 
-Synapse is a Multi-LLM Consensus and Evaluation Platform designed to orchestrate structured debates between multiple Large Language Models and analyze how consensus emerges through interaction.
+Synapse AI is a Multi-LLM Consensus and Evaluation Platform designed to orchestrate structured debates between multiple Large Language Models and analyze how consensus emerges through interaction.
 
 The platform consists of five primary layers:
 
@@ -31,7 +31,7 @@ Together, these layers enable multi-model discussions, consensus generation, and
     ┌──────────┼──────────┐
     ▼          ▼          ▼
 ┌───────┐  ┌───────┐  ┌───────┐
-│ GPT-4 │  │Claude │  │Gemini │
+│ Model-A │  │Model-B │  │Model-C │
 └───┬───┘  └───┬───┘  └───┬───┘
     │           │          │
     └─────┬─────┴────┬─────┘
@@ -174,11 +174,11 @@ Each agent corresponds to a specific LLM.
 
 ## Supported Models (MVP)
 
-### GPT Agent
+### Model-A Agent
 
 Provider:
 
-OpenAI
+Generic LLM Provider
 
 Responsibilities:
 
@@ -188,11 +188,11 @@ Responsibilities:
 
 ---
 
-### Claude Agent
+### Model-B Agent
 
 Provider:
 
-Anthropic
+Generic LLM Provider
 
 Responsibilities:
 
@@ -202,11 +202,11 @@ Responsibilities:
 
 ---
 
-### Gemini Agent
+### Model-C Agent
 
 Provider:
 
-Google
+Generic LLM Provider
 
 Responsibilities:
 
@@ -218,10 +218,10 @@ Responsibilities:
 
 ## Future Models
 
-* Llama
-* DeepSeek
-* Qwen
-* Mistral
+* Generic LLM Provider
+* Generic LLM Provider
+* Generic LLM Provider
+* Generic LLM Provider
 
 ---
 
@@ -390,9 +390,9 @@ Visualizes model-to-model influence.
 
 Example:
 
-Claude → GPT
+Model-B → Model-A
 
-GPT → Gemini
+Model-A → Model-C
 
 ---
 
@@ -508,4 +508,4 @@ Creates debate strategies dynamically based on question type.
 
 # Architecture Summary
 
-Synapse is designed as a modular, extensible platform for studying how multiple AI systems interact, challenge assumptions, influence one another, and converge toward shared conclusions. Its architecture separates debate orchestration, model execution, consensus generation, and behavioral evaluation to enable both practical experimentation and future research into multi-agent reasoning systems.
+Synapse AI is designed as a modular, extensible platform for studying how multiple AI systems interact, challenge assumptions, influence one another, and converge toward shared conclusions. Its architecture separates debate orchestration, model execution, consensus generation, and behavioral evaluation to enable both practical experimentation and future research into multi-agent reasoning systems.

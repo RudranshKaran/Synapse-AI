@@ -1,8 +1,8 @@
-# Synapse System Design Decisions
+# Synapse AI System Design Decisions
 
 ## Overview
 
-This document records the major architectural and technology decisions made during the design and development of Synapse.
+This document records the major architectural and technology decisions made during the design and development of Synapse AI.
 
 Each decision captures:
 
@@ -28,7 +28,7 @@ Accepted
 
 ### Problem
 
-Synapse requires a backend framework capable of:
+Synapse AI requires a backend framework capable of:
 
 * Handling multiple LLM providers
 * Supporting asynchronous operations
@@ -92,7 +92,7 @@ Use FastAPI.
 
 ### Rationale
 
-Synapse is API-first and heavily dependent on asynchronous communication with multiple LLM providers.
+Synapse AI is API-first and heavily dependent on asynchronous communication with multiple LLM providers.
 
 FastAPI provides excellent support for these requirements while maintaining simplicity and strong developer productivity.
 
@@ -110,7 +110,7 @@ Accepted
 
 ### Problem
 
-Synapse requires persistent storage for:
+Synapse AI requires persistent storage for:
 
 * Debates
 * Responses
@@ -192,7 +192,7 @@ Accepted
 
 ### Problem
 
-Synapse requires a framework capable of orchestrating:
+Synapse AI requires a framework capable of orchestrating:
 
 * Multi-agent workflows
 * Stateful execution
@@ -265,7 +265,7 @@ Use LangGraph.
 
 ### Rationale
 
-Synapse is fundamentally a workflow-driven system.
+Synapse AI is fundamentally a workflow-driven system.
 
 Debates naturally map to graph-based execution:
 
@@ -297,7 +297,7 @@ Accepted
 
 ### Problem
 
-Synapse requires a method for comparing model outputs.
+Synapse AI requires a method for comparing model outputs.
 
 Metrics include:
 
@@ -539,7 +539,7 @@ Accepted
 
 ### Decision
 
-Design Synapse as an evaluation platform rather than a chatbot.
+Design Synapse AI as an evaluation platform rather than a chatbot.
 
 ---
 
@@ -547,7 +547,7 @@ Design Synapse as an evaluation platform rather than a chatbot.
 
 Most multi-agent projects focus on generating answers.
 
-Synapse focuses on measuring:
+Synapse AI focuses on measuring:
 
 * Consensus
 * Persuasion
@@ -560,4 +560,4 @@ The objective is to study model behavior rather than simply produce responses.
 
 # Summary
 
-The architectural decisions documented here prioritize clarity, reproducibility, extensibility, and research value. Every major technology and design choice has been selected to support Synapse's core objective: understanding how AI systems interact, influence one another, and converge toward shared conclusions.
+The architectural decisions documented here prioritize clarity, reproducibility, extensibility, and research value. Every major technology and design choice has been selected to support Synapse AI's core objective: understanding how AI systems interact, influence one another, and converge toward shared conclusions.

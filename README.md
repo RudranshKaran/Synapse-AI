@@ -1,4 +1,4 @@
-# Synapse
+# Synapse AI
 
 > A Multi-LLM Consensus & Evaluation Platform for studying reasoning convergence, persuasion dynamics, and consensus formation across AI systems.
 
@@ -12,7 +12,7 @@ However, real-world decision making rarely happens in isolation.
 
 People debate, challenge assumptions, revise opinions, and eventually form consensus.
 
-**Synapse explores what happens when AI systems do the same.**
+**Synapse AI explores what happens when AI systems do the same.**
 
 The platform orchestrates structured debates between multiple Large Language Models, tracks how their reasoning evolves over time, and measures behavioral dynamics such as:
 
@@ -26,7 +26,7 @@ Rather than asking:
 
 > "Which model gives the best answer?"
 
-Synapse asks:
+Synapse AI asks:
 
 > "How do intelligent systems influence one another and converge toward shared conclusions?"
 
@@ -50,7 +50,7 @@ They do not answer questions such as:
 * Which domains generate the greatest disagreement?
 * How stable is consensus across repeated discussions?
 
-Synapse was built to investigate these questions.
+Synapse AI was built to investigate these questions.
 
 ---
 
@@ -106,9 +106,9 @@ Result:
 
 Supports debates between multiple language models including:
 
-* GPT
-* Claude
-* Gemini
+* Model-A
+* Model-B
+* Model-C
 
 ---
 
@@ -170,7 +170,7 @@ Visualize:
            │
  ┌─────────┼─────────┐
  ▼         ▼         ▼
-GPT      Claude    Gemini
+Model-A      Model-B    Model-C
  │         │         │
  └────┬────┴────┬────┘
       ▼         ▼
@@ -207,9 +207,9 @@ GPT      Claude    Gemini
 
 ### AI Models
 
-* OpenAI
-* Anthropic
-* Google Gemini
+* Generic LLM Provider
+* Generic LLM Provider
+* Generic LLM Provider
 
 ### Evaluation
 
@@ -264,7 +264,7 @@ Measures how quickly consensus is achieved.
 
 ## Research Questions
 
-Synapse is designed to explore questions such as:
+Synapse AI is designed to explore questions such as:
 
 * Do debates improve answer quality?
 * Which models are most persuasive?
@@ -344,11 +344,11 @@ MVP Development
 
 ---
 
-## Why Synapse?
+## Why Synapse AI?
 
 Most multi-agent projects focus on generating answers.
 
-Synapse focuses on understanding how AI systems interact.
+Synapse AI focuses on understanding how AI systems interact.
 
 The goal is not simply to produce responses.
 

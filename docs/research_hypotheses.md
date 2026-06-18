@@ -1,10 +1,10 @@
-# Synapse Research Hypotheses
+# Synapse AI Research Hypotheses
 
 ## Overview
 
-The purpose of Synapse is not only to orchestrate debates between Large Language Models, but also to study how reasoning, influence, and consensus emerge in multi-agent AI systems.
+The purpose of Synapse AI is not only to orchestrate debates between Large Language Models, but also to study how reasoning, influence, and consensus emerge in multi-agent AI systems.
 
-This document outlines the primary research hypotheses that Synapse aims to investigate.
+This document outlines the primary research hypotheses that Synapse AI aims to investigate.
 
 Each hypothesis is designed to be measurable using the metrics defined in the Evaluation Framework.
 
@@ -12,7 +12,7 @@ Each hypothesis is designed to be measurable using the metrics defined in the Ev
 
 # Research Objectives
 
-Synapse seeks to answer the following high-level questions:
+Synapse AI seeks to answer the following high-level questions:
 
 * How do AI systems influence one another?
 * What factors drive consensus formation?
@@ -343,7 +343,7 @@ Debates involving different model families produce richer reasoning than debates
 
 #### Example
 
-GPT + Claude + Gemini
+Model-A + Model-B + Model-C
 
 vs
 
@@ -409,7 +409,7 @@ These hypotheses are measurable using the metrics already implemented in the Eva
 
 # Long-Term Research Vision
 
-Synapse aims to evolve into a platform for studying emergent behaviors in multi-agent AI systems.
+Synapse AI aims to evolve into a platform for studying emergent behaviors in multi-agent AI systems.
 
 Future research directions include:
 
@@ -424,4 +424,4 @@ Future research directions include:
 
 # Research Summary
 
-The hypotheses outlined in this document provide a structured framework for investigating how intelligent systems interact, influence one another, and collectively reason. By transforming debates into measurable experiments, Synapse enables systematic exploration of consensus formation and emergent behavior in Large Language Models.
+The hypotheses outlined in this document provide a structured framework for investigating how intelligent systems interact, influence one another, and collectively reason. By transforming debates into measurable experiments, Synapse AI enables systematic exploration of consensus formation and emergent behavior in Large Language Models.
