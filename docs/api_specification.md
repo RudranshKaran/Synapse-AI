@@ -1,8 +1,39 @@
-# Synapse AI API Specification
-
-## Overview
-
-The Synapse AI API provides access to debate orchestration, model interactions, consensus generation, evaluation metrics, and experiment management.
+{"debate_id": "deb_12345",
+  "status": "critiques_generated",
+  "opinions": [
+    {
+      "participant_id": ""target_model_name": "Model-A"
+    }
+  ],
+  "revisions": [
+    {
+      "participant_id": "uuid",
+      "model_name": "Model-A",
+      "content": "...",
+      "confidence_score": 88,
+      "original_participant_id": "uuid",
+      "original_model_name": "Model-A"
+    }
+  ],
+  "consensus": {
+    "consensus_score": 84,
+    "agreements": ["Human review is important."],
+    "disagreements": ["Level of oversight required varies."],
+    "summary": "Consensus score of 84% indicates strong consensus across 3 participants. 2 common points identified, 1 area of divergence remains."
+  },
+  "evaluation": {
+    "agreement_score": 84.2,
+    "opinion_drifts": {
+      "Model-A": 0.18,
+      "Model-B": 0.07,
+      "Model-C": 0.24
+    },
+    "confidence_shifts": {
+      "Model-A": 6.0,
+      "Model-B": -2.0,
+      "Model-C": 4.0
+    }
+  }ics, and experiment management.
 
 The API follows RESTful principles and uses JSON for request and response payloads.
 
@@ -320,7 +351,7 @@ GET /debates/{debate_id}/consensus
 
 ## Get Evaluation Metrics
 
-Retrieve all computed metrics.
+Retrieve all computed metrics for a debate.
 
 ### Endpoint
 
@@ -332,18 +363,22 @@ GET /debates/{debate_id}/metrics
 
 ```json
 {
-  "agreement_score": 84,
-  "persuasion_score": {
-    "Model-A": 32,
-    "Model-B": 45,
-    "Model-C": 23
-  },
-  "opinion_drift": {
+  "debate_id": "deb_12345",
+  "agreement_score": 84.2,
+  "opinion_drifts": {
     "Model-A": 0.18,
     "Model-B": 0.07,
     "Model-C": 0.24
   },
-  "confidence_shift": {
+  "confidence_shifts": {
+    "Model-A": 6.0,
+    "Model-B": -2.0,
+    "Model-C": 4.0
+  }
+}
+```
+
+---dence_shift": {
     "Model-A": 6,
     "Model-B": -2,
     "Model-C": 4

@@ -14,7 +14,7 @@ Each phase is designed to produce a usable and demonstrable milestone.
 
 Project Stage:
 
-Planning & Architecture
+MVP Development
 
 Completed:
 
@@ -23,13 +23,24 @@ Completed:
 * Agent Design
 * Evaluation Framework
 * Research Hypotheses
+* Backend Foundation (Phase 1)
+* Opinion Generation
+* Critique Generation
+* Revision Generation
+* Consensus Generation (MVP)
+* Full Pipeline: Opinion → Critique → Revision → Consensus
+* Provider Abstraction Layer (mock providers)
+* Database Schema (6 MVP + 2 extension tables)
+* Docker Development Environment
+* 75+ Tests
 
-In Progress:
+Next:
 
-* Technical Design
-* MVP Planning
-
----
+* Persuasion Score & Debate Efficiency Metrics
+* Consensus Stability Analysis
+* Real LLM Provider Integrations
+* Frontend (Next.js)
+* Research Mode & Large-Scale Experiments
 
 # Phase 0
 

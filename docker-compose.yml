@@ -1,0 +1,40 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: synapse-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_NAME=Synapse AI
+      - DEBUG=false
+      - ENVIRONMENT=development
+      - LOG_LEVEL=INFO
+      - DATABASE_URL=postgresql://synapse:synapse@db:5432/synapse
+      - CORS_ORIGINS=["http://localhost:3000"]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    container_name: synapse-db
+    environment:
+      - POSTGRES_USER=synapse
+      - POSTGRES_PASSWORD=synapse
+      - POSTGRES_DB=synapse
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U synapse"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
